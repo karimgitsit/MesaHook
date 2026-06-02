@@ -1,0 +1,21 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+solc = "0.8.26"
+evm_version = "cancun"
+optimizer = true
+# v4-core's Pool.swap needs a high IR optimizer-runs value to schedule its stack (it ships 44444444).
+# A low value (e.g. 800) triggers a "stack too deep" Yul exception when compiling the PoolManager.
+optimizer_runs = 44444444
+via_ir = true
+# Hook + custom-curve bytecode is large; anvil/forge need the raised limit.
+# Run anvil with:  anvil --code-size-limit 30000
+ffi = true
+fs_permissions = [{ access = "read", path = "./" }]
+
+[fuzz]
+runs = 256
+
+[profile.ci.fuzz]
+runs = 1000
