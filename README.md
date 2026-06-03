@@ -1,16 +1,15 @@
 # MesaHook
 
-A Uniswap v4 hook that makes an AMM behave like a **flat-topped plateau** — a *mesa*.
+A Uniswap v4 hook that combines a constant sum and constant product AMM, enabling zero-slippage swaps within a given band. Once price moves outside this band, the AMM uses the constant product formula. 
 
 ## What it is
 
-MesaHook is a custom-curve hook for **pegged or tightly correlated token pairs** (think
-stablecoin/stablecoin, or an LST and its underlying). It replaces Uniswap's default
+MesaHook is a custom-curve hook for **pegged or tightly correlated token pairs**. It replaces Uniswap's default
 concentrated-liquidity math with a two-part curve:
 
 - **In the band (the flat top):** a **constant-sum** market maker. Trades happen at a fixed
   peg price `p` with **zero slippage**. While the pool's inventory is reasonably balanced, a
-  swap of pegged assets trades exactly 1:1 (at `p`), like swapping nickels for dimes.
+  swap of pegged assets trades exactly 1:1 (at `p`).
 
 - **Outside the band (the steep sides):** a **constant-product** curve (offset so it joins the
   flat top smoothly — no price jump at the edge). As the pool becomes lopsided, price moves
